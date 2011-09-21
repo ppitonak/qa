@@ -55,7 +55,7 @@
     </extension>
 
     <extension qualifier="ajocado">
-        <property name="browser">*firefox</property>
+        <property name="browser">*googlechrome</property>
         <property name="contextRoot">http://localhost:8080/</property>
         <property name="seleniumTimeoutAjax">7000</property>
         <property name="seleniumMaximize">true</property>
