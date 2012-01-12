@@ -43,6 +43,8 @@ public class TestInputWithDeploying extends AbstractTestInput {
 
     @Deployment(testable = false)
     public static WebArchive createTestArchive() {
+        System.err.println(System.getProperties());
+        System.err.println(DEFAULT_CONFIGURATION.getApplicationWar().getAbsolutePath());
         WebArchive war = ShrinkWrap.createFromZipFile(WebArchive.class, DEFAULT_CONFIGURATION.getApplicationWar());
         return war;
     }  
