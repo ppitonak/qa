@@ -28,26 +28,6 @@
         </configuration>
     </container>
 
-    <container qualifier="jbossas-managed-6">
-        <configuration>
-            <property name="javaVmArguments">${arquillian.container.all.jvm.args}</property>
-            <property name="enableAssertions">false</property>
-        </configuration>
-    </container>
-
-    <container qualifier="jbossas-managed-7">
-        <configuration>
-            <!-- must use jboss.bind.address because AS7MessagingProviderManagement for jboss7 have problems with "localhost" [ipv6]-->
-            <property name="javaVmArguments">${arquillian.container.all.jvm.args} -Djboss.bind.address=127.0.0.1</property>
-            <property name="serverConfig">standalone-preview.xml</property>
-            <property name="outputToConsole">false</property>
-            <property name="enableAssertions">false</property>
-        </configuration>
-        <protocol type="jmx-as7">
-            <property name="executionType">REMOTE</property>
-        </protocol>
-    </container>
-
     <container qualifier="jbossas-managed-7-1" default="true">
         <configuration>
             <property name="jbossHome">target/jboss-as-7.1.1.Final</property>
@@ -68,12 +48,6 @@
         </configuration>
     </container>
 
-    <container qualifier="jbossas-remote-7">
-        <protocol type="jmx-as7">
-            <property name="executionType">REMOTE</property>
-        </protocol>
-    </container>
-
     <container qualifier="jbossas-remote-7-1">
     </container>
 
@@ -84,18 +58,6 @@
             </property>
             <property name="user">tomcat</property>
             <property name="pass">tomcat</property>
-            <property name="enableAssertions">false</property>
-        </configuration>
-    </container>
-
-    <container qualifier="tomee-remote-1-1">
-        <configuration>
-            <property name="httpPort">8080</property>
-            <property name="stopPort">9005</property>
-            <!--             <property name="tomcatVersion"></property> -->
-            <property name="openejbVersion">${version.tomee1-1}</property>
-            <property name="dir">target/apache-tomee-webprofile-${version.tomee1-1}</property>
-            <property name="appWorkingDir">target/arquillian-test-working-dir</property>
             <property name="enableAssertions">false</property>
         </configuration>
     </container>
