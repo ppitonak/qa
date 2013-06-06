@@ -21,7 +21,7 @@
  *******************************************************************************/
 package org.richfaces.tests.showcase.editor;
 
-import static org.jboss.arquillian.graphene.Graphene.guardXhr;
+import static org.jboss.arquillian.graphene.Graphene.guardAjax;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -45,7 +45,7 @@ public class TestAdvancedConfiguration extends AbstractWebDriverTest {
     @Test
     public void testEnglishLanguage() {
 
-        guardXhr(page.englishRadio).click();
+        guardAjax(page.englishRadio).click();
 
         String titleOfNewPageButton = page.newPageButton.getAttribute("title");
         assertEquals(titleOfNewPageButton, AdvancedConfigurationPage.NEW_PAGE_ENG, "The language was not changed to english!");
@@ -53,7 +53,7 @@ public class TestAdvancedConfiguration extends AbstractWebDriverTest {
 
     @Test
     public void testFrenchLanguage() {
-        guardXhr(page.frenchRadio).click();
+        guardAjax(page.frenchRadio).click();
 
         String titleOfNewPageButton = page.newPageButton.getAttribute("title");
         assertEquals(titleOfNewPageButton, AdvancedConfigurationPage.NEW_PAGE_FR, "The language was not changed to french!");
@@ -61,7 +61,7 @@ public class TestAdvancedConfiguration extends AbstractWebDriverTest {
 
     @Test
     public void testGermanLanguage() {
-        guardXhr(page.germanRadio).click();
+        guardAjax(page.germanRadio).click();
 
         String titleOfNewPageButton = page.newPageButton.getAttribute("title");
         assertEquals(titleOfNewPageButton, AdvancedConfigurationPage.NEW_PAGE_DE, "The language was not changed to german!");

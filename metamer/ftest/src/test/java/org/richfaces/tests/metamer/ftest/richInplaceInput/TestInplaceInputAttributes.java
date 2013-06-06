@@ -77,20 +77,17 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
         String testedClass = "metamer-ftest-class";
         inplaceInputAttributes.set(InplaceInputAttributes.activeClass, testedClass);
 
-        assertFalse(Graphene.attribute(inplaceInput.getRootElement(), "class")
-                .contains(testedClass).apply(driver),
-                "Inplace input should not have class metamer-ftest-class.");
+        assertFalse(inplaceInput.getRootElement().getAttribute("class").contains(testedClass),
+            "Inplace input should not have class metamer-ftest-class.");
 
         EditingState editingState = inplaceInput.editBy(OpenBy.CLICK);
-        assertTrue(Graphene.attribute(inplaceInput.getRootElement(), "class")
-                .contains(testedClass).apply(driver),
-                "Inplace input should have class metamer-ftest-class.");
+        assertTrue(inplaceInput.getRootElement().getAttribute("class").contains(testedClass),
+            "Inplace input should have class metamer-ftest-class.");
 
         editingState.cancel();
 
-        assertFalse(Graphene.attribute(inplaceInput.getRootElement(), "class")
-                .contains(testedClass).apply(driver),
-                "Inplace input should not have class metamer-ftest-class.");
+        assertFalse(inplaceInput.getRootElement().getAttribute("class").contains(testedClass),
+            "Inplace input should not have class metamer-ftest-class.");
     }
 
     @Test
@@ -98,15 +95,12 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
         String testedClass = "metamer-ftest-class";
         inplaceInputAttributes.set(InplaceInputAttributes.changedClass, testedClass);
 
-        assertFalse(Graphene.attribute(inplaceInput.getRootElement(), "class")
-                .contains(testedClass).apply(driver),
-                "Inplace input should not have class metamer-ftest-class.");
+        assertFalse(inplaceInput.getRootElement().getAttribute("class").contains(testedClass),
+            "Inplace input should not have class metamer-ftest-class.");
 
-        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue("s"),
-                WaitRequestType.XHR).confirm();
-        assertTrue(Graphene.attribute(inplaceInput.getRootElement(), "class")
-                .contains(testedClass).apply(driver),
-                "Inplace input should have class metamer-ftest-class.");
+        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue("s"), WaitRequestType.XHR).confirm();
+        assertTrue(inplaceInput.getRootElement().getAttribute("class").contains(testedClass),
+            "Inplace input should have class metamer-ftest-class.");
 
     }
 
@@ -123,16 +117,15 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
 
         page.assertListener(PhaseId.PROCESS_VALIDATIONS, "value changed: RichFaces 4 -> " + testedValue);
         page.assertPhases(PhaseId.RESTORE_VIEW, PhaseId.APPLY_REQUEST_VALUES, PhaseId.PROCESS_VALIDATIONS,
-                PhaseId.UPDATE_MODEL_VALUES, PhaseId.INVOKE_APPLICATION, PhaseId.RENDER_RESPONSE);
+            PhaseId.UPDATE_MODEL_VALUES, PhaseId.INVOKE_APPLICATION, PhaseId.RENDER_RESPONSE);
     }
 
     @Test
     @RegressionTest("https://issues.jboss.org/browse/RF-9872")
     public void testClickCancelButton() {
         inplaceInputAttributes.set(InplaceInputAttributes.showControls, Boolean.TRUE);
-        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK)
-                .changeToValue("value that will be canceled"), WaitRequestType.NONE)
-                .cancel(FinishEditingBy.CONTROLS);
+        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue("value that will be canceled"),
+            WaitRequestType.NONE).cancel(FinishEditingBy.CONTROLS);
         assertEquals(inplaceInput.getLabelValue(), "RichFaces 4", "Default value was expected.");
     }
 
@@ -140,8 +133,8 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
     public void testClickOkButton() {
         inplaceInputAttributes.set(InplaceInputAttributes.showControls, Boolean.TRUE);
         String testedValue = "value that will be confirmed and changed";
-        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK)
-                .changeToValue(testedValue), WaitRequestType.XHR).confirm(FinishEditingBy.CONTROLS);
+        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(testedValue), WaitRequestType.XHR)
+            .confirm(FinishEditingBy.CONTROLS);
         assertEquals(inplaceInput.getLabelValue(), testedValue);
     }
 
@@ -162,12 +155,10 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
 
         assertTrue(inplaceInput.isVisible(), "Inplace input is not on the page.");
         assertEquals(inplaceInput.getLabelValue(), "RichFaces 4", "Default label");
-        assertFalse(Graphene.element(inplaceInput.getControls()
-                .getCancelButtonElement()).isVisible().apply(driver),
-                "OK button should not be present on the page.");
-        assertFalse(Graphene.element(inplaceInput.getControls()
-                .getCancelButtonElement()).isVisible().apply(driver),
-                "Cancel button should not be present on the page.");
+        assertFalse(Graphene.element(inplaceInput.getControls().getCancelButtonElement()).isVisible().apply(driver),
+            "OK button should not be present on the page.");
+        assertFalse(Graphene.element(inplaceInput.getControls().getCancelButtonElement()).isVisible().apply(driver),
+            "Cancel button should not be present on the page.");
     }
 
     @Test
@@ -191,8 +182,7 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
     public void testImmediate() {
         inplaceInputAttributes.set(InplaceInputAttributes.immediate, Boolean.TRUE);
         String value = "new value";
-        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(value),
-                WaitRequestType.XHR).confirm();
+        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(value), WaitRequestType.XHR).confirm();
 
         page.assertListener(PhaseId.APPLY_REQUEST_VALUES, "value changed: RichFaces 4 -> " + value);
         page.assertPhases(PhaseId.ANY_PHASE);
@@ -203,12 +193,10 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
         assertTrue(inplaceInput.isVisible(), "Inplace input is not on the page.");
         assertEquals(inplaceInput.getLabelValue(), "RichFaces 4", "Default label");
         assertEquals(inplaceInput.getEditValue(), "RichFaces 4", "Default value of input");
-        assertTrue(Graphene.element(inplaceInput.getControls().
-                getOkButtonElement()).not().isVisible().apply(driver),
-                "OK button should not be present on the page.");
-        assertTrue(Graphene.element(inplaceInput.getControls().
-                getCancelButtonElement()).not().isVisible().apply(driver),
-                "Cancel button should not be present on the page.");
+        assertTrue(Graphene.element(inplaceInput.getControls().getOkButtonElement()).not().isVisible().apply(driver),
+            "OK button should not be present on the page.");
+        assertTrue(Graphene.element(inplaceInput.getControls().getCancelButtonElement()).not().isVisible()
+            .apply(driver), "Cancel button should not be present on the page.");
     }
 
     @Test
@@ -240,149 +228,140 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
     @Test
     @RegressionTest("https://issues.jboss.org/browse/RF-10044")
     public void testOnchange() {
-        testFireEvent(inplaceInputAttributes, InplaceInputAttributes.onchange,
-                new Action() {
-                    @Override
-                    public void perform() {
-                        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK)
-                                .changeToValue("new value"), WaitRequestType.XHR).confirm();
-                    }
-                });
+        testFireEvent(inplaceInputAttributes, InplaceInputAttributes.onchange, new Action() {
+            @Override
+            public void perform() {
+                MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue("new value"),
+                    WaitRequestType.XHR).confirm();
+            }
+        });
     }
 
     @Test
     public void testOnclick() {
         testFireEvent(inplaceInputAttributes, InplaceInputAttributes.onclick,
-                new Actions(driver).click(inplaceInput.getRootElement()).build());
+            new Actions(driver).click(inplaceInput.getRootElement()).build());
     }
 
     @Test
     public void testOndblclick() {
         testFireEvent(inplaceInputAttributes, InplaceInputAttributes.ondblclick,
-                new Actions(driver).doubleClick(inplaceInput.getRootElement()).build());
+            new Actions(driver).doubleClick(inplaceInput.getRootElement()).build());
     }
 
     @Test
     @RegressionTest("https://issues.jboss.org/browse/RF-9868")
     public void testOnfocus() {
         testFireEvent(inplaceInputAttributes, InplaceInputAttributes.onfocus,
-                new Actions(driver).click(inplaceInput.getRootElement()).build());
+            new Actions(driver).click(inplaceInput.getRootElement()).build());
     }
 
     @Test
     public void testOninputclick() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.CLICK,
-                inplaceInputAttributes, InplaceInputAttributes.oninputclick);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.CLICK, inplaceInputAttributes,
+            InplaceInputAttributes.oninputclick);
     }
 
     @Test
     public void testOninputdblclick() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.DBLCLICK,
-                inplaceInputAttributes, InplaceInputAttributes.oninputdblclick);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.DBLCLICK, inplaceInputAttributes,
+            InplaceInputAttributes.oninputdblclick);
     }
 
     @Test
     public void testOninputkeydown() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.KEYDOWN,
-                inplaceInputAttributes, InplaceInputAttributes.oninputkeydown);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.KEYDOWN, inplaceInputAttributes,
+            InplaceInputAttributes.oninputkeydown);
     }
 
     @Test
     public void testOninputkeypress() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.KEYPRESS,
-                inplaceInputAttributes, InplaceInputAttributes.oninputkeypress);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.KEYPRESS, inplaceInputAttributes,
+            InplaceInputAttributes.oninputkeypress);
     }
 
     @Test
     public void testOninputkeyup() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.KEYUP,
-                inplaceInputAttributes, InplaceInputAttributes.oninputkeyup);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.KEYUP, inplaceInputAttributes,
+            InplaceInputAttributes.oninputkeyup);
     }
 
     @Test
     public void testOninputmousedown() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEDOWN,
-                inplaceInputAttributes, InplaceInputAttributes.oninputmousedown);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEDOWN, inplaceInputAttributes,
+            InplaceInputAttributes.oninputmousedown);
     }
 
     @Test
     public void testOninputmousemove() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEMOVE,
-                inplaceInputAttributes, InplaceInputAttributes.oninputmousemove);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEMOVE, inplaceInputAttributes,
+            InplaceInputAttributes.oninputmousemove);
     }
 
     @Test
     public void testOninputmouseout() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEOUT,
-                inplaceInputAttributes, InplaceInputAttributes.oninputmouseout);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEOUT, inplaceInputAttributes,
+            InplaceInputAttributes.oninputmouseout);
     }
 
     @Test
     public void testOninputmouseover() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEOVER,
-                inplaceInputAttributes, InplaceInputAttributes.oninputmouseover);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEOVER, inplaceInputAttributes,
+            InplaceInputAttributes.oninputmouseover);
     }
 
     @Test
     public void testOninputmouseup() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEUP,
-                inplaceInputAttributes, InplaceInputAttributes.oninputmouseup);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.MOUSEUP, inplaceInputAttributes,
+            InplaceInputAttributes.oninputmouseup);
     }
 
     @Test
     public void testOninputselect() {
-        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.SELECT,
-                inplaceInputAttributes, InplaceInputAttributes.oninputselect);
+        testFireEventWithJS(inplaceInput.getEditInputElement(), Event.SELECT, inplaceInputAttributes,
+            InplaceInputAttributes.oninputselect);
     }
 
     @Test
     public void testOnkeydown() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onkeydown);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onkeydown);
     }
 
     @Test
     public void testOnkeypress() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onkeypress);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onkeypress);
     }
 
     @Test
     public void testOnkeyup() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onkeyup);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onkeyup);
 
     }
 
     @Test
     public void testOnmousedown() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onmousedown);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onmousedown);
     }
 
     @Test
     public void testOnmousemove() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onmousemove);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onmousemove);
 
     }
 
     @Test
     public void testOnmouseout() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onmouseout);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onmouseout);
     }
 
     @Test
     public void testOnmouseover() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onmouseover);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onmouseover);
     }
 
     @Test
     public void testOnmouseup() {
-        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes,
-                InplaceInputAttributes.onmouseup);
+        testFireEventWithJS(inplaceInput.getRootElement(), inplaceInputAttributes, InplaceInputAttributes.onmouseup);
     }
 
     @Test
@@ -394,15 +373,12 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
     @Test
     public void testRequired() {
         inplaceInputAttributes.set(InplaceInputAttributes.required, Boolean.TRUE);
-        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(""),
-                WaitRequestType.XHR).confirm();
+        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(""), WaitRequestType.XHR).confirm();
         assertTrue(requiredMessage.isVisible());
-        assertEquals(requiredMessage.getDetail(),
-                inplaceInputAttributes.get(InplaceInputAttributes.requiredMessage));
+        assertEquals(requiredMessage.getDetail(), inplaceInputAttributes.get(InplaceInputAttributes.requiredMessage));
 
         inplaceInputAttributes.set(InplaceInputAttributes.required, Boolean.FALSE);
-        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(""),
-                WaitRequestType.XHR).confirm();
+        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(""), WaitRequestType.XHR).confirm();
         assertFalse(requiredMessage.isVisible());
     }
 
@@ -411,8 +387,7 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
         String reqMsg = "Another new and completely different required message.";
         inplaceInputAttributes.set(InplaceInputAttributes.required, Boolean.TRUE);
         inplaceInputAttributes.set(InplaceInputAttributes.requiredMessage, reqMsg);
-        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(""),
-                WaitRequestType.XHR).confirm();
+        MetamerPage.waitRequest(inplaceInput.editBy(OpenBy.CLICK).changeToValue(""), WaitRequestType.XHR).confirm();
         assertTrue(requiredMessage.isVisible());
         assertEquals(requiredMessage.getDetail(), reqMsg);
     }
@@ -429,19 +404,19 @@ public class TestInplaceInputAttributes extends AbstractWebDriverTest {
     @RegressionTest("https://issues.jboss.org/browse/RF-12609")
     public void testShowControls() {
         assertFalse(inplaceInput.getControls().isVisible(), "Controls should not be visible.");
-        assertFalse(Graphene.element(inplaceInput.getControls()
-                .getCancelButtonElement()).isVisible().apply(driver), "Cancel button should not be visible.");
-        assertFalse(Graphene.element(inplaceInput.getControls()
-                .getOkButtonElement()).isVisible().apply(driver), "Ok button should not be visible.");
+        assertFalse(Graphene.element(inplaceInput.getControls().getCancelButtonElement()).isVisible().apply(driver),
+            "Cancel button should not be visible.");
+        assertFalse(Graphene.element(inplaceInput.getControls().getOkButtonElement()).isVisible().apply(driver),
+            "Ok button should not be visible.");
 
         inplaceInputAttributes.set(InplaceInputAttributes.showControls, Boolean.TRUE);
 
         inplaceInput.editBy(OpenBy.CLICK);
         assertTrue(inplaceInput.getControls().isVisible(), "Controls are not visible.");
-        assertTrue(Graphene.element(inplaceInput.getControls()
-                .getCancelButtonElement()).isVisible().apply(driver), "Cancel button is not visible.");
-        assertTrue(Graphene.element(inplaceInput.getControls()
-                .getOkButtonElement()).isVisible().apply(driver), "Ok button is not visible.");
+        assertTrue(Graphene.element(inplaceInput.getControls().getCancelButtonElement()).isVisible().apply(driver),
+            "Cancel button is not visible.");
+        assertTrue(Graphene.element(inplaceInput.getControls().getOkButtonElement()).isVisible().apply(driver),
+            "Ok button is not visible.");
     }
 
     @Test
