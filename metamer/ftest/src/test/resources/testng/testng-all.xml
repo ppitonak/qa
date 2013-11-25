@@ -12,7 +12,7 @@
 
         <packages>
             <package name="org.richfaces.tests.metamer.ftest.*" >
-                <exclude="org.richfaces.tests.metamer.ftest.richCalendar" />
+                <exclude name="org.richfaces.tests.metamer.ftest.richCalendar" />
             </package>
         </packages>
     </test>
