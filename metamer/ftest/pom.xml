@@ -55,7 +55,7 @@ FSF site: http://www.fsf.org. -->
         <dependency>
             <groupId>org.richfaces.tests</groupId>
             <artifactId>metamer</artifactId>
-            <version>${project.version}</version>
+            <version>4.3.7.Final-redhat-1-WFK2-755</version>
             <classifier>classes</classifier>
             <scope>test</scope>
         </dependency>

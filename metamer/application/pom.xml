@@ -24,6 +24,7 @@ FSF site: http://www.fsf.org. -->
     <artifactId>metamer</artifactId>
     <packaging>war</packaging>
     <name>RichFaces Metamer Testing Application</name>
+    <version>4.3.7.Final-redhat-1-WFK2-755</version>
 
     <properties>
         <jetty.port>8080</jetty.port>
@@ -46,6 +47,7 @@ FSF site: http://www.fsf.org. -->
         <dependency>
             <groupId>org.richfaces.ui</groupId>
             <artifactId>richfaces-components-ui</artifactId>
+            <version>4.3.7.Final-redhat-1-WFK2-755</version>
         </dependency>
         <dependency>
             <groupId>org.richfaces.cdk</groupId>
