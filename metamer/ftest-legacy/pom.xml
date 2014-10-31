@@ -181,7 +181,7 @@
                                 <artifactItem>
                                     <groupId>org.richfaces.tests</groupId>
                                     <artifactId>metamer</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${project.version}-WFK2-752</version>
                                     <classifier>${metamer.classifier}</classifier>
                                     <type>war</type>
                                     <destFileName>metamer.war</destFileName>
